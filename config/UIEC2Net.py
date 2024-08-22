@@ -16,11 +16,8 @@ test_ann_file_path = 'test_time.txt'         # txt file for loading images, defa
 img_norm_cfg = dict(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
 train_pipeline = [dict(type='LoadImageFromFile', gt_type='color', get_gt=True),
                   dict(type='RandomFlip', flip_ratio=0.5),
-                  # dict(type='Pad', size_divisor=32, mode='resize'),
                   dict(type='ImageToTensor')]
 test_pipeling = [dict(type='LoadImageFromFile', gt_type='color', get_gt=False),
-                 # dict(type='Resize', img_scale=(256,256), keep_ratio=True),
-                 # dict(type='Pad', size_divisor=32, mode='resize'),
                  dict(type='ImageToTensor')]
 
 usebytescale = False                                    # if use output min->0, max->255, default is False (copy from scipy=1.1.0)
@@ -59,10 +56,8 @@ loss_l1 = dict(type='L1Loss', loss_weight=2.0)
 loss_perc = dict(type='PerceptualLoss', loss_weight=0,
                  no_vgg_instance=False, vgg_mean=False,
                  vgg_choose='conv4_3', vgg_maxpooling=False)
-
 optimizer = dict(type='Adam', lr=1e-3, betas=[0.9, 0.999])    # optimizer with type, learning rate, and betas.
 
-# 需要写iter
 lr_config = dict(type='Epoch',          # Epoch or Iter
                  warmup='linear',       # liner, step, exp,
                  step=[100, 700],          # start with 1
@@ -70,7 +65,6 @@ lr_config = dict(type='Epoch',          # Epoch or Iter
                  step_gamma=0.1,
                  exp_gamma=0.9)
 
-# 需要写
 log_config = dict(
     interval=1,
     hooks=[

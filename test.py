@@ -9,34 +9,19 @@ import torch
 import time
 import os.path as osp
 from torch.nn.parallel import DataParallel
-from UW.utils import Config
-from UW.core.Models import build_network
-from UW.core.Datasets import build_dataset, build_dataloader
-from UW.core.Optimizer import build_optimizer, build_scheduler
-from UW.utils import (mkdir_or_exist, get_root_logger,
+from UWEnhancement.utils import Config
+from UWEnhancement.core.Models import build_network
+from UWEnhancement.core.Datasets import build_dataset, build_dataloader
+from UWEnhancement.core.Optimizer import build_optimizer, build_scheduler
+from UWEnhancement.utils import (mkdir_or_exist, get_root_logger,
                       save_epoch, save_latest, save_item, normimage_test,
                       resume, load, normPRED)
 
-from UW.utils.save_image import (save_image, normimage,
+from UWEnhancement.utils.save_image import (save_image, normimage,
                                      save_ensemble_image, save_ensemble_image_8)
 
 
 from tensorboardX import SummaryWriter
-# TORCH_VERSION = torch.__version__
-# if TORCH_VERSION < '1.1' or TORCH_VERSION == 'parrots':
-#     try:
-#         from tensorboardX import SummaryWriter
-#     except ImportError:
-#         raise ImportError('Please install tensorboardX to use '
-#                           'TensorboardLoggerHook.')
-# else:
-#     try:
-#         from torch.utils.tensorboard import SummaryWriter
-#     except ImportError:
-#         raise ImportError(
-#             'Please run "pip install future tensorboard" to install '
-#             'the dependencies to use torch.utils.tensorboard '
-#             '(applicable to PyTorch 1.1 or higher)')
 
 from getpass import getuser
 from socket import gethostname
@@ -47,12 +32,12 @@ def get_host_info():
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     parser.add_argument('--config',type=str,
-                        default='/home/dong/GitHub_Frame/UW/config/UWCNN.py',
+                        default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/config/UWCNN.py',
                         help='train config file path')
     parser.add_argument('--load_from',
-                        default='/home/dong/GitHub_Frame/UW/checkpoints/UWCNN/UWCNN_type3.pth',
+                        default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/checkpoints/UWCNN_type3.pth',
                         help='the dir to save logs and models,')
-    parser.add_argument('--savepath', help='the dir to save logs and models,')
+    parser.add_argument('--savepath',default="./save_data", help='the dir to save logs and models,')
     group_gpus = parser.add_mutually_exclusive_group()
     group_gpus.add_argument(
         '--gpus',

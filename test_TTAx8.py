@@ -12,15 +12,15 @@ from torch.nn.parallel import DataParallel
 import collections
 from torch.autograd import Variable
 import visdom
-from UW.utils import Config
-from UW.core.Models import build_network
-from UW.core.Datasets import build_dataset, build_dataloader
-from UW.core.Optimizer import build_optimizer, build_scheduler
-from UW.utils import (mkdir_or_exist, get_root_logger, normimage_test,
+from UWEnhancement.utils import Config
+from UWEnhancement.core.Models import build_network
+from UWEnhancement.core.Datasets import build_dataset, build_dataloader
+from UWEnhancement.core.Optimizer import build_optimizer, build_scheduler
+from UWEnhancement.utils import (mkdir_or_exist, get_root_logger, normimage_test,
                       save_epoch, save_latest, save_item, forward_x8,
                       resume, load)
 import numpy as np
-from UW.utils.save_image import (save_image, normimage,
+from UWEnhancement.utils.save_image import (save_image, normimage,
                                  save_ensemble_image, save_ensemble_image_8)
 
 '''
@@ -30,12 +30,12 @@ test time augmentation
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     parser.add_argument('--config',type=str,
-                        default='/home/dong/GitHub_Frame/UW/config/UWCNN.py',
+                        default='UWCNN.py',
                         help='train config file path')
     parser.add_argument('--load_from',
-                        default='/home/dong/GitHub_Frame/UW/checkpoints/UWCNN/UWCNN_type3.pth',
+                        default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/checkpoints/UWCNN_type3.pth',
                         help='the dir to save logs and models,')
-    parser.add_argument('--savepath', help='the dir to save logs and models,')
+    parser.add_argument('--savepath',default="./test", help='the dir to save logs and models,')
     group_gpus = parser.add_mutually_exclusive_group()
     group_gpus.add_argument(
         '--gpus',
