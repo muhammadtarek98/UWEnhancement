@@ -35,7 +35,7 @@ def parse_args():
                         default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/config/UWCNN.py',
                         help='train config file path')
     parser.add_argument('--load_from',
-                        default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/checkpoints/UWCNN_type3.pth',
+                        default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/checkpoints/UWCNN_type1.pth',
                         help='the dir to save logs and models,')
     parser.add_argument('--savepath',default="./save_data", help='the dir to save logs and models,')
     group_gpus = parser.add_mutually_exclusive_group()
