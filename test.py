@@ -32,10 +32,10 @@ def get_host_info():
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     parser.add_argument('--config',type=str,
-                        default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/config/UWCNN.py',
+                        default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/config/UIEC2Net.py',
                         help='train config file path')
     parser.add_argument('--load_from',
-                        default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/checkpoints/UWCNN_type1.pth',
+                        default='/home/muahmmad/projects/Image_enhancement/UWEnhancement/checkpoints/UIEC2Net.pth',
                         help='the dir to save logs and models,')
     parser.add_argument('--savepath',default="./save_data", help='the dir to save logs and models,')
     group_gpus = parser.add_mutually_exclusive_group()

@@ -2,7 +2,7 @@ import os
 
 
 def getfiles():
-    filenames=os.listdir('../DATA/EUVP')
+    filenames=os.listdir('/home/muahmmad/projects/Image_enhancement/dataset/underwater_imagenet')
     print(filenames)
     return filenames
 
