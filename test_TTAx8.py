@@ -82,7 +82,7 @@ if __name__ == '__main__':
     # create text log
     # build model
     model = build_network(cfg.model, train_cfg=cfg.train_cfg, test_cfg=cfg.test_cfg)
-    load(cfg.load_from, model, None)
+    load(cfg.load_from, model, logger=None)
     # build dataset
     datasets = build_dataset(cfg.data.test)
     # put model on gpu
