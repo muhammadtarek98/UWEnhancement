@@ -17,15 +17,15 @@ class HSV2RGB(nn.Module):
         htemp = (h * 360) % 360
         h = htemp / 360
         # h = h / 360
-        vs = torch.div(torch.mul(v, s), 60)  # (v * s) / 60
-        R1_delta = function_delta(torch.add(torch.mul(h, 360), -60))  # delta(360h - 60)
-        R2_delta = function_delta(torch.add(torch.mul(h, 360), -240))
+        vs = torch.div(torch.mul(v, s), other=60)  # (v * s) / 60
+        R1_delta = function_delta(torch.add(torch.mul(h, other=360), -60))  # delta(360h - 60)
+        R2_delta = function_delta(torch.add(torch.mul(h, other=360), -240))
 
-        G1_delta = function_delta(torch.add(torch.mul(h, 360), 0))
-        G2_delta = function_delta(torch.add(torch.mul(h, 360), -180))
+        G1_delta = function_delta(torch.add(torch.mul(h, other=360), 0))
+        G2_delta = function_delta(torch.add(torch.mul(h, other=360), -180))
 
-        B1_delta = function_delta(torch.add(torch.mul(h, 360), -120))
-        B2_delta = function_delta(torch.add(torch.mul(h, 360), -300))
+        B1_delta = function_delta(torch.add(torch.mul(h, other=360), -120))
+        B2_delta = function_delta(torch.add(torch.mul(h, other=360), -300))
 
         one_minus_s = torch.mul(torch.add(s, -1), -1)
         R_1 = torch.add(v, -1, torch.mul(vs, R1_delta))
@@ -42,9 +42,9 @@ class HSV2RGB(nn.Module):
 
         del h, s, v, vs, R1_delta, R2_delta, G1_delta, G2_delta, B1_delta, B2_delta, one_minus_s, R_1, R_2, G_1, G_2, B_1, B_2
 
-        R = torch.reshape(R, (batch, 1, w, height))
-        G = torch.reshape(G, (batch, 1, w, height))
-        B = torch.reshape(B, (batch, 1, w, height))
-        RGB_img = torch.cat([R, G, B], 1)
+        R = torch.reshape(R, shape=(batch, 1, w, height))
+        G = torch.reshape(G, shape=(batch, 1, w, height))
+        B = torch.reshape(B, shape=(batch, 1, w, height))
+        RGB_img = torch.cat(tensors=[R, G, B], dim=1)
 
         return RGB_img

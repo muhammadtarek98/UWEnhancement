@@ -30,20 +30,19 @@ class UIEC2Net(BaseNet):
         self.hsv2rgb = HSV2RGB()
         # rgb
         self.norm_batch = nn.InstanceNorm2d  # choose one
-
         self.rgb_norm_batch1 = self.norm_batch(64)
-        self.rgb_con1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1)
+        self.rgb_con1 = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.rgb_norm_batch2 = self.norm_batch(64)
-        self.rgb_con2 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        self.rgb_con2 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.rgb_norm_batch3 = self.norm_batch(64)
-        self.rgb_con3 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        self.rgb_con3 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.rgb_norm_batch4 = self.norm_batch(64)
-        self.rgb_con4 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        self.rgb_con4 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.rgb_norm_batch5 = self.norm_batch(64)
-        self.rgb_con5 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        self.rgb_con5 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.rgb_norm_batch6 = self.norm_batch(64)
-        self.rgb_con6 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
-        self.rgb_con7 = nn.Conv2d(64, 64, kernel_size=1, stride=1, padding=0)
+        self.rgb_con6 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
+        self.rgb_con7 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=1, stride=1, padding=0)
 
         self.rgb_fuction_down = nn.LeakyReLU(inplace=True)
         self.rgb_fuction_up = nn.ReLU(inplace=True)
@@ -54,31 +53,31 @@ class UIEC2Net(BaseNet):
         self.M = 11
         # New /1/./2/./3/ use number_f = 32
         number_f = 64
-        self.e_conv1 = nn.Conv2d(6, number_f, 3, 1, 1, bias=True)
-        self.e_conv2 = nn.Conv2d(number_f, number_f, 3, 1, 1, bias=True)
-        self.e_conv3 = nn.Conv2d(number_f, number_f, 3, 1, 1, bias=True)
-        self.e_conv4 = nn.Conv2d(number_f, number_f, 3, 1, 1, bias=True)
-        self.e_conv7 = nn.Conv2d(number_f, number_f, 3, 1, 1, bias=True)
-        self.e_convfc = nn.Linear(number_f, 44)
-        self.maxpool = nn.MaxPool2d(2, stride=2, return_indices=False, ceil_mode=False)
+        self.e_conv1 = nn.Conv2d(in_channels=6,out_channels= number_f, kernel_size=3, stride=1, padding=1, bias=True)
+        self.e_conv2 = nn.Conv2d(in_channels=number_f,out_channels= number_f, kernel_size=3, stride=1, padding=1, bias=True)
+        self.e_conv3 = nn.Conv2d(in_channels=number_f, out_channels=number_f, kernel_size=3, stride=1, padding=1, bias=True)
+        self.e_conv4 = nn.Conv2d(in_channels=number_f, out_channels=number_f, kernel_size=3, stride=1, padding=1, bias=True)
+        self.e_conv7 = nn.Conv2d(in_channels=number_f, out_channels=number_f, kernel_size=3, stride=1,padding= 1, bias=True)
+        self.e_convfc = nn.Linear(in_features=number_f, out_features=44)
+        self.maxpool = nn.MaxPool2d(kernel_size=2, stride=2, return_indices=False, ceil_mode=False)
         self.avagepool = nn.AdaptiveAvgPool2d(1)
         self.upsample = nn.UpsamplingBilinear2d(scale_factor=2)
         # confidence
         self.norm_batch = nn.InstanceNorm2d  # choose one
 
         self.norm_batch1 = self.norm_batch(64)
-        self.con1 = nn.Conv2d(9, 64, kernel_size=3, stride=1, padding=1)
+        self.con1 = nn.Conv2d(in_channels=9, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.norm_batch2 = self.norm_batch(64)
-        self.con2 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        self.con2 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.norm_batch3 = self.norm_batch(64)
-        self.con3 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        self.con3 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.norm_batch4 = self.norm_batch(64)
-        self.con4 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        self.con4 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.norm_batch5 = self.norm_batch(64)
-        self.con5 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
+        self.con5 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.norm_batch6 = self.norm_batch(64)
-        self.con6 = nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1)
-        self.con7 = nn.Conv2d(64, 6, kernel_size=1, stride=1, padding=0)
+        self.con6 = nn.Conv2d(in_channels=64,out_channels= 64, kernel_size=3, stride=1, padding=1)
+        self.con7 = nn.Conv2d(in_channels=64, out_channels=6, kernel_size=1, stride=1, padding=0)
 
         self.fuction_down = nn.LeakyReLU(inplace=True)
         self.fuction_up = nn.ReLU(inplace=True)
@@ -93,7 +92,7 @@ class UIEC2Net(BaseNet):
         # for param in self.backbone.parameters():
         #     param.requires_grad = False
 
-    def forward(self, x):
+    def forward(self, x:torch.Tensor)->torch.Tensor:
         h = self.rgb_fuction_down(self.rgb_norm_batch1(self.rgb_con1(x)))
         h = self.rgb_fuction_down(self.rgb_norm_batch2(self.rgb_con2(h)))
         h = self.rgb_fuction_down(self.rgb_norm_batch3(self.rgb_con3(h)))
@@ -105,7 +104,7 @@ class UIEC2Net(BaseNet):
         hsv_fromrgbout = self.rgb2hsv(rgb_out)
         hsv_frominput = self.rgb2hsv(x)
 
-        hsv_input = torch.cat([hsv_fromrgbout, hsv_fromrgbout], dim=1)
+        hsv_input = torch.cat(tensors=[hsv_fromrgbout, hsv_fromrgbout], dim=1)
         batch_size = hsv_input.size()[0]
         x1 = self.relu(self.e_conv1(hsv_input))
         x1 = self.maxpool(x1)
@@ -136,15 +135,15 @@ class UIEC2Net(BaseNet):
         one_lab = torch.ones(V_out.shape).cuda()
         V_out = torch.where(s_t > 1, one_lab, s_t)
 
-        hsv_out = torch.cat([H_out, S_out, V_out], dim=1)
-        curve = torch.cat([H.view(batch_size, 1, -1),
+        hsv_out = torch.cat(tensors=[H_out, S_out, V_out], dim=1)
+        curve = torch.cat(tensors=[H.view(batch_size, 1, -1),
                            S.view(batch_size, 1, -1),
                            V.view(batch_size, 1, -1),
                            H2S.view(batch_size, 1, -1)], dim=1)
 
         hsv_out_rgb = self.hsv2rgb(hsv_out)
 
-        confindencenet_input = torch.cat([x,
+        confindencenet_input = torch.cat(tensors=[x,
                                           rgb_out,
                                           hsv_out_rgb], dim=1)
 

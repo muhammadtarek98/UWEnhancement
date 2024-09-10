@@ -13,7 +13,7 @@ class DenseBlock(nn.Module):
         '''
         # densenet = models.densenet121(pretrained=pretrained)  # 121, 161, 169, 201
         self.features = nn.Sequential(OrderedDict([
-            ('conv0', nn.Conv2d(3, 64, kernel_size=3, stride=1,
+            ('conv0', nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1,
                                 padding=1, bias=True)),
             ('norm0', nn.BatchNorm2d(64)),
             ('relu0', nn.ReLU(inplace=True))
@@ -22,7 +22,7 @@ class DenseBlock(nn.Module):
         self.denseblock1_pooling = nn.Sequential(OrderedDict([
             ('norm', nn.BatchNorm2d(256)),
             ('relu', nn.ReLU(inplace=True)),
-            ('conv', nn.Conv2d(256, 128, kernel_size=1, stride=1, bias=False)),
+            ('conv', nn.Conv2d(in_channels=256, out_channels=128, kernel_size=1, stride=1, bias=False)),
             ('pool', nn.AvgPool2d(kernel_size=2, stride=2))
             ]))
         # self.trans1 = nn.Conv2d()
@@ -30,7 +30,7 @@ class DenseBlock(nn.Module):
         self.denseblock2_pooling = nn.Sequential(OrderedDict([
             ('norm', nn.BatchNorm2d(512)),
             ('relu', nn.ReLU(inplace=True)),
-            ('conv', nn.Conv2d(512, 256, kernel_size=1, stride=1, bias=False)),
+            ('conv', nn.Conv2d(in_channels=512,out_channels= 256, kernel_size=1, stride=1, bias=False)),
             ('pool', nn.AvgPool2d(kernel_size=2, stride=2))
         ]))
 
@@ -38,20 +38,20 @@ class DenseBlock(nn.Module):
         self.denseblock3_pooling = nn.Sequential(OrderedDict([
             ('norm', nn.BatchNorm2d(1024)),
             ('relu', nn.ReLU(inplace=True)),
-            ('conv', nn.Conv2d(1024, 256, kernel_size=1, stride=1, bias=False)),
+            ('conv', nn.Conv2d(in_channels=1024, out_channels=256, kernel_size=1, stride=1, bias=False)),
             ('pool', nn.AvgPool2d(kernel_size=2, stride=2))
         ]))
 
         self.denseblock4_pooling = nn.Sequential(OrderedDict([
             ('norm', nn.BatchNorm2d(1024)),
             ('relu', nn.ReLU(inplace=True)),
-            ('conv', nn.Conv2d(1024, 512, kernel_size=1, stride=1, bias=False)),
+            ('conv', nn.Conv2d(in_channels=1024, out_channels=512, kernel_size=1, stride=1, bias=False)),
             ('pool', nn.AvgPool2d(kernel_size=2, stride=2))
         ]))
         self.denseblock5_pooling = nn.Sequential(OrderedDict([
             ('norm', nn.BatchNorm2d(1024)),
             ('relu', nn.ReLU(inplace=True)),
-            ('conv', nn.Conv2d(1024, 1024, kernel_size=1, stride=1, bias=False)),
+            ('conv', nn.Conv2d(in_channels=1024, out_channels=1024, kernel_size=1, stride=1, bias=False)),
             ('pool', nn.AvgPool2d(kernel_size=2, stride=2))
         ]))
         self.init_weights(pretrained=pretrained)

@@ -14,10 +14,6 @@ class RGB2HSV(nn.Module):
         v_plus_min = V - min_rgb
         S = v_plus_min / (V + 0.0001)
         H = torch.zeros_like(rgb[:, 0, :, :])
-        # if rgb.type() == 'torch.cuda.FloatTensor':
-        #     H = torch.zeros(batch, w, h).type(torch.cuda.FloatTensor)
-        # else:
-        #     H = torch.zeros(batch, w, h).type(torch.FloatTensor)
         mark = max_index == 0
         H[mark] = 60 * (g[mark] - b[mark]) / (v_plus_min[mark] + 0.0001)
         mark = max_index == 1
@@ -29,5 +25,5 @@ class RGB2HSV(nn.Module):
         H[mark] += 360
         H = H % 360
         H = H / 360
-        HSV_img = torch.cat([H.view(batch, 1, w, h), S.view(batch, 1, w, h), V.view(batch, 1, w, h)], 1)
+        HSV_img = torch.cat(tensors=[H.view(batch, 1, w, h), S.view(batch, 1, w, h), V.view(batch, 1, w, h)], dim=1)
         return HSV_img

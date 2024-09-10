@@ -1,21 +1,21 @@
+import torch
 import torch.nn as nn
 
 
-def conv3x3(in_planes, out_planes, stride=1, groups=1, dilation=1):
+def conv3x3(in_planes:int, out_planes:int, stride:int=1, groups:int=1, dilation:int=1):
     """3x3 convolution with padding"""
-    return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
+    return nn.Conv2d(in_channels=in_planes, out_channels=out_planes, kernel_size=3, stride=stride,
                      padding=dilation, groups=groups, bias=False, dilation=dilation)
 
 
-def conv1x1(in_planes, out_planes, stride=1):
+def conv1x1(in_planes:int, out_planes:int, stride:int=1):
     """1x1 convolution"""
-    return nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, bias=False)
+    return nn.Conv2d(in_channels=in_planes,out_channels= out_planes, kernel_size=1, stride=stride, bias=False)
 
 
 class BasicBlock(nn.Module):
     expansion = 1
-
-    def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
+    def __init__(self, inplanes:int, planes:int, stride:int=1, downsample=None, groups:int=1,
                  base_width=64, dilation=1, norm_layer=None):
         super(BasicBlock, self).__init__()
         if norm_layer is None:
@@ -25,15 +25,15 @@ class BasicBlock(nn.Module):
         if dilation > 1:
             raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
         # Both self.conv1 and self.downsample layers downsample the input when stride != 1
-        self.conv1 = conv3x3(inplanes, planes, stride)
+        self.conv1 = conv3x3(in_planes=inplanes,out_planes= planes, stride=stride)
         self.bn1 = norm_layer(planes)
         self.relu = nn.ReLU(inplace=True)
-        self.conv2 = conv3x3(planes, planes)
+        self.conv2 = conv3x3(in_planes=planes,out_planes= planes)
         self.bn2 = norm_layer(planes)
         self.downsample = downsample
         self.stride = stride
 
-    def forward(self, x):
+    def forward(self, x:torch.Tensor)->torch.Tensor:
         identity = x
 
         out = self.conv1(x)
@@ -61,24 +61,24 @@ class Bottleneck(nn.Module):
 
     expansion = 4
 
-    def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
-                 base_width=64, dilation=1, norm_layer=None):
+    def __init__(self, inplanes:int, planes:int, stride:int=1, downsample=None, groups:int=1,
+                 base_width:int=64, dilation:int=1, norm_layer=None):
         super(Bottleneck, self).__init__()
         if norm_layer is None:
             norm_layer = nn.BatchNorm2d
         width = int(planes * (base_width / 64.)) * groups
         # Both self.conv2 and self.downsample layers downsample the input when stride != 1
-        self.conv1 = conv1x1(inplanes, width)
+        self.conv1 = conv1x1(in_planes=inplanes,out_planes= width)
         self.bn1 = norm_layer(width)
-        self.conv2 = conv3x3(width, width, stride, groups, dilation)
+        self.conv2 = conv3x3(in_planes=width,out_planes= width,stride= stride,groups=groups, dilation=dilation)
         self.bn2 = norm_layer(width)
-        self.conv3 = conv1x1(width, planes * self.expansion)
+        self.conv3 = conv1x1(in_planes=width, out_planes=planes * self.expansion)
         self.bn3 = norm_layer(planes * self.expansion)
         self.relu = nn.ReLU(inplace=True)
         self.downsample = downsample
         self.stride = stride
 
-    def forward(self, x):
+    def forward(self, x:torch.Tensor)->torch.Tensor:
 
         out = self.conv1(x)
         out = self.bn1(out)
@@ -97,7 +97,7 @@ class Bottleneck(nn.Module):
 
 
 class ResNetUpSample(nn.Module):
-    def __init__(self, block=Bottleneck):
+    def __init__(self, block:torch.nn.Module=Bottleneck):
         super(ResNetUpSample, self).__init__()
         self.inplanes = 64
         self.layer2 = self._make_layer(block, planes=128, blocks=3)
@@ -108,7 +108,7 @@ class ResNetUpSample(nn.Module):
         downsample = None
         if stride != 1 or self.inplanes != planes * block.expansion:
             downsample = nn.Sequential(
-                nn.Conv2d(self.inplanes, planes * block.expansion,
+                nn.Conv2d(in_channels=self.inplanes,out_channels= planes * block.expansion,
                           kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(planes * block.expansion),
             )
@@ -119,11 +119,11 @@ class ResNetUpSample(nn.Module):
             layers.append(block(self.inplanes, planes))
         return nn.Sequential(*layers)
 
-    def forward(self, x):
+    def forward(self, x:torch.Tensor)->torch.Tensor:
         out = self.layer2(x)
         out = self.upsample(out)
         return out
 
 if __name__ == '__main__':
     model = ResNetUpSample()
-    print()
+    print(model)
